@@ -5,8 +5,17 @@ const fetch = require('node-fetch');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Enable CORS for all origins
-app.use(cors());
+// Enable CORS for all origins with all methods
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: false
+}));
+
+// Handle preflight requests
+app.options('*', cors());
+
 app.use(express.json({ limit: '50mb' }));
 
 // Health check endpoint
